@@ -142,3 +142,14 @@ body {
 
     scale: 0.9;
 }
+
+@media screen and (max-width: 768px) {
+    /* スマホの時は地図を一回り小さくして、右下にフィットさせる */
+    #map-container {
+        width: 160px;
+        height: 120px;
+        bottom: 10px;
+        right: 10px;
+    }
+
+}
