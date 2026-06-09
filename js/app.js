@@ -1,67 +1,262 @@
-// 地図上の座標定義
+// 地図座標
 const mapLocations = {
-    "entrance":    { top: '80%', left: '20%' },
-    "garden_path": { top: '50%', left: '40%' },
-    "city_view":   { top: '30%', left: '70%' },
-    "sunset_road": { top: '10%', left: '85%' }
+
+    "entrance": {
+        top: '80%',
+        left: '20%'
+    },
+
+    "garden_path": {
+        top: '50%',
+        left: '40%'
+    },
+
+    "city_view": {
+        top: '30%',
+        left: '70%'
+    },
+
+    "sunset_road": {
+        top: '10%',
+        left: '85%'
+    }
 };
 
-// Pannellumビューアーの初期化
+// シーン接続
+const sceneLinks = {
+
+    "entrance": [
+        {
+            yaw: 0,
+            target: "garden_path"
+        }
+    ],
+
+    "garden_path": [
+        {
+            yaw: 180,
+            target: "entrance"
+        },
+
+        {
+            yaw: 0,
+            target: "city_view"
+        }
+    ],
+
+    "city_view": [
+        {
+            yaw: 180,
+            target: "garden_path"
+        },
+
+        {
+            yaw: 0,
+            target: "sunset_road"
+        }
+    ],
+
+    "sunset_road": [
+        {
+            yaw: 180,
+            target: "city_view"
+        }
+    ]
+};
+
+// viewer
 const viewer = pannellum.viewer('panorama', {
+
     "default": {
+
         "firstScene": "entrance",
+
         "autoLoad": true,
+
         "sceneFadeDuration": 1000,
-        "hfov": 100,      // 視野角を広げる（初期値100くらいがおすすめ）
-        "minHfov": 50,    // ズームインの限界
+
+        "hfov": 100,
+
+        "minHfov": 50,
+
         "maxHfov": 120
     },
+
     "scenes": {
+
         "entrance": {
-            "title": "お土産",
+
+            "title": "銀河庭園 入口",
+
             "type": "equirectangular",
-            "panorama": "image/Ekorin2.jpg",
-            "hotSpots": [{ "pitch": -5, "yaw": 0, "type": "scene", "text": "進む", "sceneId": "garden_path" }]
+
+            "panorama": "image/indoor2.jpg"
         },
+
         "garden_path": {
-            "title": "展望台",
+
+            "title": "庭園の散策路",
+
             "type": "equirectangular",
-            "panorama": "image/Ekorin1.jpg",
-            "hotSpots": [
-                { "pitch": -5, "yaw": 180, "type": "scene", "text": "戻る", "sceneId": "entrance" },
-                { "pitch": -5, "yaw": 0, "type": "scene", "text": "街へ", "sceneId": "city_view" }
-            ]
+
+            "panorama": "image/GPTDemo.png"
         },
+
         "city_view": {
+
             "title": "街のパノラマ",
+
             "type": "equirectangular",
-            "panorama": "image/sample3.webp",
-            "hotSpots": [
-                { "pitch": -10, "yaw": 180, "type": "scene", "text": "庭園へ", "sceneId": "garden_path" },
-                { "pitch": -5, "yaw": 0, "type": "scene", "text": "夕暮れへ", "sceneId": "sunset_road" }
-            ]
+
+            "panorama": "image/demo3.jpg"
         },
+
         "sunset_road": {
+
             "title": "夕暮れの道",
+
             "type": "equirectangular",
-            "panorama": "image/sample4.jpg",
-            "hotSpots": [{ "pitch": -5, "yaw": 180, "type": "scene", "text": "街へ戻る", "sceneId": "city_view" }]
+
+            "panorama": "image/sample4.jpg"
         }
     }
 });
 
-// 地図クリックでシーンを切り替える関数
+// シーン変更
 function changeScene(id) {
+
     viewer.loadScene(id);
 }
 
-// シーン切り替え時に地図の赤丸を更新
-viewer.on('load', function() {
+// 現在地更新
+viewer.on('load', function () {
+
     const sceneId = viewer.getScene();
+
     const pos = mapLocations[sceneId];
+
     if (pos) {
-        const dot = document.getElementById('current-pos');
+
+        const dot =
+        document.getElementById('current-pos');
+
         dot.style.top = pos.top;
+
         dot.style.left = pos.left;
     }
 });
+
+// 右クリック移動
+document.getElementById("panorama")
+.addEventListener("contextmenu", function (e) {
+
+    e.preventDefault();
+
+    // 現在向き
+    let currentYaw = viewer.getYaw();
+
+    // 現在シーン
+    let currentScene = viewer.getScene();
+
+    // 接続先
+    let links = sceneLinks[currentScene];
+
+    if (!links) return;
+
+    let closest = null;
+
+    let smallestDiff = 9999;
+
+    // 一番近い方向
+    links.forEach(link => {
+
+        let diff =
+        Math.abs(currentYaw - link.yaw);
+
+        if (diff > 180) {
+
+            diff = 360 - diff;
+        }
+
+        if (diff < smallestDiff) {
+
+            smallestDiff = diff;
+
+            closest = link;
+        }
+    });
+
+    // 60度以内なら移動
+    if (closest && smallestDiff < 60) {
+
+        viewer.loadScene(closest.target);
+    }
+});
+
+// カーソル
+const cursor =
+document.getElementById("move-cursor");
+
+// マウス移動
+document.addEventListener("mousemove", (e) => {
+
+    cursor.style.left =
+    e.clientX + "px";
+
+    cursor.style.top =
+    e.clientY + "px";
+
+    // 向き
+    let yaw = viewer.getYaw();
+
+    // 回転
+    cursor.style.transform =
+    `translate(-50%, -50%)
+    rotate(${yaw}deg)`;
+});
+
+// ドラッグ開始
+document.addEventListener("mousedown", () => {
+
+    cursor.classList.add("dragging");
+});
+
+// ドラッグ終了
+document.addEventListener("mouseup", () => {
+
+    cursor.classList.remove("dragging");
+});
+
+// panorama上
+const panorama =
+document.getElementById("panorama");
+
+panorama.addEventListener("mouseenter", () => {
+
+    cursor.classList.add("active");
+});
+
+panorama.addEventListener("mouseleave", () => {
+
+    cursor.classList.remove("active");
+});
+
+// ミニマップ方向更新
+function updateMapRotation() {
+
+    const dot =
+    document.getElementById("current-pos");
+
+    // 向いてる方向
+    let yaw = viewer.getYaw();
+
+    // 回転
+    dot.style.transform =
+    `translate(-50%, -50%)
+    rotate(${yaw}deg)`;
+
+    requestAnimationFrame(updateMapRotation);
+}
+
+// 開始
+updateMapRotation();
