@@ -1,74 +1,52 @@
 body {
-
     margin: 0;
-
     overflow: hidden;
-
     background: black;
 }
 
 /* panorama */
 #panorama {
-
     width: 100%;
-
     height: 100vh;
+    cursor: none; /* 標準のカーソルを消して自作カーソルを目立たせる */
+}
 
-    cursor: none;
+#panorama, #panorama * {
+    cursor: none !important;
 }
 
 /* ミニマップ */
 #map-container {
-
     position: absolute;
-
     bottom: 20px;
     right: 20px;
-
     width: 260px;
     height: 190px;
-
     background: rgba(255,255,255,0.85);
-
     border: 2px solid white;
-
     border-radius: 10px;
-
     overflow: hidden;
-
     z-index: 1000;
 }
 
 /* 地図画像 */
 #map-image {
-
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
 }
 
 /* 現在地 */
 #current-pos {
-
     position: absolute;
-
     width: 22px;
     height: 22px;
-
     background: red;
-
     border: 2px solid white;
-
     border-radius: 50%;
-
     z-index: 1010;
-
     pointer-events: none;
-
     transform: translate(-50%, -50%);
-
     transition:
         top 0.4s ease,
         left 0.4s ease,
@@ -77,79 +55,84 @@ body {
 
 /* 向き矢印 */
 #current-pos::after {
-
     content: "";
-
     position: absolute;
-
     top: -14px;
-
     left: 50%;
-
     transform: translateX(-50%);
-
     width: 0;
     height: 0;
-
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-
     border-bottom: 14px solid white;
 }
 
 /* 地図ボタン */
 .map-dot-button {
-
     position: absolute;
-
     width: 24px;
     height: 24px;
-
     background: rgba(0,0,0,0.2);
-
     border-radius: 50%;
-
     cursor: pointer;
-
     z-index: 1005;
-
     transform: translate(-50%, -50%);
 }
 
 .map-dot-button:hover {
-
     background: rgba(255,255,255,0.7);
-
     border: 1px solid #333;
 }
 
+/* 自作カーソルの基本スタイル */
+#move-cursor {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    line-height: 38px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid white;
+    border-radius: 50%;
+    pointer-events: none; /* カーソル自体がクリックイベントを邪魔しないようにする */
+    z-index: 9999;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transition: scale 0.2s ease, background 0.2s ease;
+    display: none; /* 普段（画面外など）は非表示 */
+}
 
-
-/* panorama上 */
+/* panorama上（マウスが入ったら表示して青くする） */
 #move-cursor.active {
-
+    display: block;
     background: rgba(0,150,255,0.85);
-
     scale: 1.15;
 }
 
 /* ドラッグ中 */
 #move-cursor.dragging {
-
     background: rgba(255,255,255,0.9);
-
     color: black;
-
     scale: 0.9;
 }
 
+/* スマホ対応 */
 @media screen and (max-width: 768px) {
-    /* スマホの時は地図を一回り小さくして、右下にフィットさせる */
     #map-container {
         width: 160px;
         height: 120px;
         bottom: 10px;
         right: 10px;
     }
-
+    /* スマホでは自作カーソルは不要なので非表示にする */
+    #move-cursor {
+        display: none !important;
+    }
+    #panorama {
+        cursor: auto;
+    }
 }
