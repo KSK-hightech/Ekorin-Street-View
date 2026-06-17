@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>えこりん村 360度ツアー</title>
+    <title>えこりん村 トマトの森 360度ツアー</title>
 
     <!-- Pannellum -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css">
@@ -12,13 +12,19 @@
 
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-tour="village">
+<body data-tour="tomato">
 
     <!-- 360度ビュー -->
     <div id="panorama"></div>
 
     <!-- 移動カーソル -->
     <div id="move-cursor">➢</div>
+
+    <!-- タイトル -->
+    <div id="tour-title">
+        <span>えこりん村</span>
+        <strong>トマトの森</strong>
+    </div>
 
     <!-- ハンバーガーメニュー -->
     <div id="menu-container">
@@ -29,26 +35,12 @@
         </button>
 
         <nav id="menu-panel">
-           <a href="tomato.html">トマトの森</a>
+            <a href="index.html">えこりん村マップ</a>
             <a href="welcomeCenter.html">ウェルカムセンター</a>
             <a href="coconutHole.html">ココワッカホール</a>
             <a href="RakudaKen.html">レストランラクダ軒</a>
             <a href="https://www.ecorinvillage.com/">えこりん村ホームページ</a>
         </nav>
-    </div>
-
-    <!-- 地図 -->
-    <div id="map-container">
-        <img id="map-image" src="image/test/map.webp" alt="map">
-
-        <!-- 現在地 -->
-        <div id="current-pos"></div>
-
-        <!-- 移動ポイント -->
-        <div class="map-dot-button" style="top:80%; left:20%;" onclick="changeScene('entrance')"></div>
-        <div class="map-dot-button" style="top:50%; left:40%;" onclick="changeScene('garden_path')"></div>
-        <div class="map-dot-button" style="top:30%; left:70%;" onclick="changeScene('city_view')"></div>
-        <div class="map-dot-button" style="top:10%; left:85%;" onclick="changeScene('sunset_road')"></div>
     </div>
 
     <script src="js/app.js"></script>

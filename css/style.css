@@ -2,41 +2,123 @@ body {
     margin: 0;
     overflow: hidden;
     background: black;
+    font-family: Arial, "Hiragino Sans", "Yu Gothic", sans-serif;
 }
 
-/* panorama */
+.pnlm-about-msg {
+    display: none !important;
+}
+
 #panorama {
     width: 100%;
     height: 100vh;
-    cursor: none; /* 標準のカーソルを消して自作カーソルを目立たせる */
+    cursor: none;
 }
 
 #panorama, #panorama * {
     cursor: none !important;
 }
 
+/* 使わない場合に表示されないようにする */
+#move-cursor {
+    display: none;
+}
+
+/* ハンバーガーメニュー */
+#menu-container {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 3000;
+}
+
+#menu-button {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#menu-button span {
+    width: 24px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: 0.2s ease;
+}
+
+#menu-container.open #menu-button span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+#menu-container.open #menu-button span:nth-child(2) {
+    opacity: 0;
+}
+
+#menu-container.open #menu-button span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+#menu-panel {
+    position: absolute;
+    top: 58px;
+    right: 0;
+    width: 210px;
+    display: none;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#menu-container.open #menu-panel {
+    display: flex;
+}
+
+#menu-panel a {
+    padding: 14px 16px;
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+#menu-panel a:last-child {
+    border-bottom: none;
+}
+
+#menu-panel a:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
 /* ミニマップ */
 #map-container {
     position: absolute;
-    bottom: 20px;
     right: 20px;
+    bottom: 20px;
     width: 260px;
     height: 190px;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255, 255, 255, 0.85);
     border: 2px solid white;
     border-radius: 10px;
     overflow: hidden;
     z-index: 1000;
 }
 
-/* 地図画像 */
 #map-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* 現在地 */
 #current-pos {
     position: absolute;
     width: 22px;
@@ -44,35 +126,28 @@ body {
     background: red;
     border: 2px solid white;
     border-radius: 50%;
-    z-index: 1010;
     pointer-events: none;
+    z-index: 1010;
     transform: translate(-50%, -50%);
-    transition:
-        top 0.4s ease,
-        left 0.4s ease,
-        transform 0.1s linear;
+    transition: top 0.4s ease, left 0.4s ease;
 }
 
-/* 向き矢印 */
 #current-pos::after {
     content: "";
     position: absolute;
     top: -14px;
     left: 50%;
     transform: translateX(-50%);
-    width: 0;
-    height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-bottom: 14px solid white;
 }
 
-/* 地図ボタン */
 .map-dot-button {
     position: absolute;
     width: 24px;
     height: 24px;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 50%;
     cursor: pointer;
     z-index: 1005;
@@ -80,9 +155,10 @@ body {
 }
 
 .map-dot-button:hover {
-    background: rgba(255,255,255,0.7);
+    background: rgba(255, 255, 255, 0.7);
     border: 1px solid #333;
 }
+
 
 /* 自作カーソルの基本スタイル */
 #move-cursor {
@@ -120,14 +196,66 @@ body {
     scale: 0.9;
 }
 
-/* スマホ対応 */
+
+/* 店内ページタイトル */
+#tour-title {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.55);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 8px;
+    z-index: 1000;
+    line-height: 1.4;
+}
+
+#tour-title span {
+    display: block;
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+#tour-title strong {
+    display: block;
+    font-size: 20px;
+}
+
 @media screen and (max-width: 768px) {
     #map-container {
         width: 160px;
         height: 120px;
+        right: 10px;
         bottom: 10px;
+    }
+
+    #menu-container {
+        top: 10px;
         right: 10px;
     }
+
+    #menu-button {
+        width: 44px;
+        height: 44px;
+    }
+
+    #menu-panel {
+        top: 54px;
+        width: 190px;
+    }
+
+    #tour-title {
+        top: 10px;
+        left: 10px;
+        padding: 10px 12px;
+    }
+
+    #tour-title strong {
+        font-size: 17px;
+    }
+
+
     /* スマホでは自作カーソルは不要なので非表示にする */
     #move-cursor {
         display: none !important;
