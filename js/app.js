@@ -140,8 +140,8 @@ const rakudaTour = {
     },
 
     scenes: {
-        rakuda_1: { title: "レストランラクダ軒 1", type: "equirectangular", panorama: "image/rakudaKen/7.jpg" },
-        rakuda_2: { title: "レストランラクダ軒 2", type: "equirectangular", panorama: "image/rakudaKen/8.jpg" }
+        rakuda_1: { title: "レストランラクダ軒 1", type: "equirectangular", panorama: "image/RakudaKen/7.jpg" },
+        rakuda_2: { title: "レストランラクダ軒 2", type: "equirectangular", panorama: "image/RakudaKen/8.jpg" }
     }
 };
 
