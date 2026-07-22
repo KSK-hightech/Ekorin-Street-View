@@ -15,13 +15,9 @@ body {
     cursor: none;
 }
 
-#panorama, #panorama * {
+#panorama,
+#panorama * {
     cursor: none !important;
-}
-
-/* 使わない場合に表示されないようにする */
-#move-cursor {
-    display: none;
 }
 
 /* ハンバーガーメニュー */
@@ -104,13 +100,26 @@ body {
     position: absolute;
     right: 20px;
     bottom: 20px;
-    width: 260px;
-    height: 190px;
+    width: 320px;
+    height: 230px;
     background: rgba(255, 255, 255, 0.85);
     border: 2px solid white;
     border-radius: 10px;
     overflow: hidden;
     z-index: 1000;
+    cursor: grab;
+}
+
+#map-container.dragging {
+    cursor: grabbing;
+}
+
+#map-zoom-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
 }
 
 #map-image {
@@ -121,8 +130,8 @@ body {
 
 #current-pos {
     position: absolute;
-    width: 22px;
-    height: 22px;
+    width: 7px;
+    height: 7px;
     background: red;
     border: 2px solid white;
     border-radius: 50%;
@@ -135,39 +144,43 @@ body {
 #current-pos::after {
     content: "";
     position: absolute;
-    top: -14px;
+    top: -8px;
     left: 50%;
     transform: translateX(-50%);
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 14px solid white;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-bottom: 8px solid white;
 }
 
 .map-dot-button {
     position: absolute;
-    width: 24px;
-    height: 24px;
-    background: rgba(0, 0, 0, 0.2);
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgb(0, 0, 0);
     border-radius: 50%;
     cursor: pointer;
     z-index: 1005;
     transform: translate(-50%, -50%);
+    padding: 0;
 }
 
 .map-dot-button:hover {
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid #333;
+    background: rgba(255, 80, 0, 0.95);
 }
 
+.map-dot-button:hover {
+    background: rgba(255, 80, 0, 0.95);
+}
 
-/* 自作カーソルの基本スタイル */
+/* 自作カーソル */
 #move-cursor {
     position: fixed;
     width: 40px;
     height: 40px;
     line-height: 38px;
     text-align: center;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     color: white;
@@ -175,27 +188,23 @@ body {
     background: rgba(0, 0, 0, 0.6);
     border: 2px solid white;
     border-radius: 50%;
-    pointer-events: none; /* カーソル自体がクリックイベントを邪魔しないようにする */
+    pointer-events: none;
     z-index: 9999;
     transform: translate(-50%, -50%) rotate(-90deg);
     transition: scale 0.2s ease, background 0.2s ease;
-    display: none; /* 普段（画面外など）は非表示 */
 }
 
-/* panorama上（マウスが入ったら表示して青くする） */
 #move-cursor.active {
     display: block;
-    background: rgba(0,150,255,0.85);
+    background: rgba(0, 150, 255, 0.85);
     scale: 1.15;
 }
 
-/* ドラッグ中 */
 #move-cursor.dragging {
-    background: rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.9);
     color: black;
     scale: 0.9;
 }
-
 
 /* 店内ページタイトル */
 #tour-title {
@@ -224,10 +233,17 @@ body {
 
 @media screen and (max-width: 768px) {
     #map-container {
-        width: 160px;
-        height: 120px;
+        width: 190px;
+        height: 140px;
         right: 10px;
         bottom: 10px;
+    }
+
+    .map-dot-button {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+        line-height: 16px;
     }
 
     #menu-container {
@@ -255,11 +271,10 @@ body {
         font-size: 17px;
     }
 
-
-    /* スマホでは自作カーソルは不要なので非表示にする */
     #move-cursor {
         display: none !important;
     }
+
     #panorama {
         cursor: auto;
     }

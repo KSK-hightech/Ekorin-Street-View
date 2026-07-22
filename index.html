@@ -3,10 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>えこりん村 360度ツアー</title>
 
-    <!-- Pannellum -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css">
     <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 
@@ -14,13 +12,10 @@
 </head>
 <body data-tour="village">
 
-    <!-- 360度ビュー -->
     <div id="panorama"></div>
 
-    <!-- 移動カーソル -->
     <div id="move-cursor">➢</div>
 
-    <!-- ハンバーガーメニュー -->
     <div id="menu-container">
         <button id="menu-button" type="button" onclick="toggleMenu()">
             <span></span>
@@ -29,7 +24,7 @@
         </button>
 
         <nav id="menu-panel">
-           <a href="tomato.html">トマトの森</a>
+            <a href="tomato.html">トマトの森</a>
             <a href="welcomeCenter.html">ウェルカムセンター</a>
             <a href="coconutHole.html">ココワッカホール</a>
             <a href="RakudaKen.html">レストランラクダ軒</a>
@@ -37,19 +32,38 @@
         </nav>
     </div>
 
-    <!-- 地図 -->
     <div id="map-container">
-        <img id="map-image" src="image/test/map.webp" alt="map">
+    <div id="map-zoom-layer">
+        <img id="map-image" src="image/outside/map.png" alt="map">
 
-        <!-- 現在地 -->
         <div id="current-pos"></div>
 
-        <!-- 移動ポイント -->
-        <div class="map-dot-button" style="top:80%; left:20%;" onclick="changeScene('entrance')"></div>
-        <div class="map-dot-button" style="top:50%; left:40%;" onclick="changeScene('garden_path')"></div>
-        <div class="map-dot-button" style="top:30%; left:70%;" onclick="changeScene('city_view')"></div>
-        <div class="map-dot-button" style="top:10%; left:85%;" onclick="changeScene('sunset_road')"></div>
+        <button class="map-dot-button" style="top:62%; left:47%;" onclick="changeScene('spot_1')" aria-label="地点1"></button>
+        <button class="map-dot-button" style="top:36%; left:24%;" onclick="changeScene('spot_2')" aria-label="地点2"></button>
+        <button class="map-dot-button" style="top:44%; left:27%;" onclick="changeScene('spot_3')" aria-label="地点3"></button>
+        <button class="map-dot-button" style="top:38%; left:30%;" onclick="changeScene('spot_4')" aria-label="地点4"></button>
+
+        <button class="map-dot-button" style="top:29%; left:36%;" onclick="changeScene('spot_11')" aria-label="地点11"></button>
+        <button class="map-dot-button" style="top:19%; left:42%;" onclick="changeScene('spot_13')" aria-label="地点13"></button>
+        <button class="map-dot-button" style="top:13%; left:45%;" onclick="changeScene('spot_15')" aria-label="地点15"></button>
+        <button class="map-dot-button" style="top:4%; left:50%;" onclick="changeScene('spot_16')" aria-label="地点16"></button>
+        <button class="map-dot-button" style="top:9%; left:50%;" onclick="changeScene('spot_17')" aria-label="地点17"></button>
+        <button class="map-dot-button" style="top:2%; left:66%;" onclick="changeScene('spot_18')" aria-label="地点18"></button>
+
+        <button class="map-dot-button" style="top:40%; left:44%;" onclick="changeScene('spot_20')" aria-label="地点20"></button>
+        <button class="map-dot-button" style="top:54%; left:57%;" onclick="changeScene('spot_21')" aria-label="地点21"></button>
+        <button class="map-dot-button" style="top:52%; left:60%;" onclick="changeScene('spot_22')" aria-label="地点22"></button>
+        <button class="map-dot-button" style="top:45%; left:60%;" onclick="changeScene('spot_23')" aria-label="地点23"></button>
+        <button class="map-dot-button" style="top:48%; left:49%;" onclick="changeScene('spot_24')" aria-label="地点24"></button>
+
+        <button class="map-dot-button" style="top:50%; left:65%;" onclick="changeScene('spot_25')" aria-label="地点25"></button>
+        <button class="map-dot-button" style="top:0%; left:0%;" onclick="changeScene('spot_26')" aria-label="地点26"></button>
+        <button class="map-dot-button" style="top:0%; left:0%;" onclick="changeScene('spot_27')" aria-label="地点27"></button>
+        <button class="map-dot-button" style="top:0%; left:0%;" onclick="changeScene('spot_28')" aria-label="地点28"></button>
+        <button class="map-dot-button" style="top:0%; left:0%;" onclick="changeScene('spot_29')" aria-label="地点29"></button>
+        <button class="map-dot-button" style="top:0%; left:0%;" onclick="changeScene('spot_30')" aria-label="地点30"></button>
     </div>
+</div>
 
     <script src="js/app.js"></script>
 </body>
